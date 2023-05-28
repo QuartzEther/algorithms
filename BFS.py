@@ -1,19 +1,9 @@
-# n = int(input())
-
-# def bracket(count, s='', left=0, right=0):
-#     if left == count and right == count:
-#         print(s)
-#     else:
-#         if left < count:
-#             bracket(count, s + '(', left+1, right)
-#         if right < left:
-#             bracket(count, s + ')', left, right+1)
-
-# bracket(n)
 import queue
 
+# ввод кол-ва узлов
 n = int(input())
 
+# Класс для узла (что бы иметь возможность высчитать растояние от точки до любой другой)
 class City:
     def __init__(self, x, y):
         self.x = int(x)
@@ -25,19 +15,19 @@ class City:
     def xy(self):
         return str(self.x) + ' ' + str(self.y)
 
-
+# Ввод массива узлов (class City (x, y)) с клавиатуры
 cityMap = []
 for i in range(n):
     temp = input().split(' ')
     cityMap.append(City(temp[0],temp[1]))
 
+# Макс длина ребра между узлами
 maxLenth = int(input())
 
-fromTo = input().split(' ')
-strt = int(fromTo[0])-1
-end = int(fromTo[1])-1
+# Узел от которого нужно узнать растояние до остальных
+strt = int(input())
 
-
+# Создание графа
 adj = []
 for city in cityMap:
     temp = []
@@ -49,6 +39,7 @@ for city in cityMap:
 
 inf = float('inf')
 
+# BFS
 def bsf(start, graph):
     visited = []
     dist = []
@@ -73,6 +64,5 @@ def bsf(start, graph):
 
     return dist
 
-allDists = bsf(strt, adj)
-
-print(allDists)
+# Вывод
+print(bsf(strt, adj))
