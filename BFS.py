@@ -25,7 +25,7 @@ for i in range(n):
 maxLenth = int(input())
 
 # Узел от которого нужно узнать растояние до остальных
-strt = int(input())
+strt = int(input())-1
 
 # Создание графа
 adj = []
@@ -41,15 +41,14 @@ inf = float('inf')
 
 # BFS
 def bsf(start, graph):
-    visited = []
+    fr = [] #для поиска пути аля from
     dist = []
     q = queue.Queue()
 
     for i in range(len(graph)):
-        visited.append(0)
         dist.append(inf)
+        fr.append(-1)
 
-    visited[start] = 1
     dist[start] = 0
     q.put(start)
 
@@ -57,12 +56,25 @@ def bsf(start, graph):
         v = q.get()
 
         for i in graph[v]:
-            if not visited[i]:
-                visited[i] = 1
+            if dist[i] > dist[v] + 1:
                 dist[i] = dist[v] + 1
+                fr[i] = v
                 q.put(i)
 
-    return dist
+    return [dist, fr]
+
+
+# Путь до конечной точки
+def fromCity(end, fr):
+    path = []
+    while end != -1:
+        path.append(end)
+        end = fr[end]
+
+    path.reverse()
+    return path
+
+
 
 # Вывод
-print(bsf(strt, adj))
+print(fromCity(5, bsf(strt, adj)[1]), bsf(strt, adj)[1])
